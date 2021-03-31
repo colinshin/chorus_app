@@ -1,5 +1,6 @@
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/ui_scroll_list_view.dart';
 import 'package:chorus_app/src/widgets/hymn_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,15 +10,18 @@ class HymnScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hymnProv = Provider.of<ChorusJsonProvider>(context);
+    final _provScroll = Provider.of<UiKeepScroll>(context);
+
     final favoriteChorusProvider =
         Provider.of<FavoriteChorusAppProvider>(context);
-    ScrollController _sc = ScrollController();
+    ScrollController _sc = ScrollController(
+        keepScrollOffset: true, initialScrollOffset: _provScroll.scrollHymn);
 
     return SafeArea(
         child: NotificationListener(
-      onNotification: (t) {
+      onNotification: (Notification t) {
         if (t is ScrollEndNotification) {
-          print(_sc.position.pixels);
+          _provScroll.scrollHymn = _sc.offset;
           return true;
         }
         return false;

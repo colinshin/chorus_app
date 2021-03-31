@@ -19,16 +19,13 @@ class UiKeepDataSearched extends ChangeNotifier {
 
   set searchChorus(String str) {
     this._searchChorus = str;
-   // notifyListeners();
   }
 
   set searchHymn(String str) {
     this._searchHymn = str;
-   // notifyListeners();
   }
 
   set searchFavorite(String str) {
     this._searchFavorite = str;
-   // notifyListeners();
   }
 }
