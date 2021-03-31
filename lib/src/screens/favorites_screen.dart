@@ -32,6 +32,7 @@ class Fav extends StatelessWidget {
     return SafeArea(
         child: favorite.favoriteChorus.length > 0
             ? ListView(
+                physics: BouncingScrollPhysics(parent: ScrollPhysics()),
                 children: [
                   Column(
                     children: [

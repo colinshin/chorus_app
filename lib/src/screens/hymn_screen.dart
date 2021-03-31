@@ -1,4 +1,3 @@
-import 'package:chorus_app/src/models/song_model.dart';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/widgets/hymn_item.dart';
@@ -12,16 +11,30 @@ class HymnScreen extends StatelessWidget {
     final hymnProv = Provider.of<ChorusJsonProvider>(context);
     final favoriteChorusProvider =
         Provider.of<FavoriteChorusAppProvider>(context);
-    return SafeArea(
-        child: ListView.builder(
-            itemCount: hymnProv.hymns.length,
-            itemBuilder: (BuildContext ctx, int idx) {
-              final isFavorite = favoriteChorusProvider.favoriteChorus
-                  .map((e) => e.id)
-                  .toList()
-                  .contains(hymnProv.hymns[idx].id);
+    ScrollController _sc = ScrollController();
 
-              return HymnItem(favorite: isFavorite, hymn: hymnProv.hymns[idx]);
-            }));
+    return SafeArea(
+        child: NotificationListener(
+      onNotification: (t) {
+        if (t is ScrollEndNotification) {
+          print(_sc.position.pixels);
+          return true;
+        }
+        return false;
+      },
+      child: ListView.builder(
+          controller: _sc,
+          physics: BouncingScrollPhysics(parent: ScrollPhysics()),
+          addAutomaticKeepAlives: true,
+          itemCount: hymnProv.hymns.length,
+          itemBuilder: (BuildContext ctx, int idx) {
+            final isFavorite = favoriteChorusProvider.favoriteChorus
+                .map((e) => e.id)
+                .toList()
+                .contains(hymnProv.hymns[idx].id);
+
+            return HymnItem(favorite: isFavorite, hymn: hymnProv.hymns[idx]);
+          }),
+    ));
   }
 }

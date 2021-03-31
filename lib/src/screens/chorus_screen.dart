@@ -14,6 +14,7 @@ class ChorusScreen extends StatelessWidget {
     return SafeArea(
         child: ListView.builder(
             itemCount: chorusProv.chorus.length,
+            physics: BouncingScrollPhysics(parent: ScrollPhysics()),
             itemBuilder: (BuildContext ctx, int idx) {
               chorusProv.chorus[idx].type = "chorus";
 
