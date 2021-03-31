@@ -14,7 +14,8 @@ class FavoritesScreen extends StatelessWidget {
     return SafeArea(
         child: favorite.favoriteChorus.length > 0
             ? _createLisView(favorite.favoriteChorus)
-            : emptyState(context));
+            : emptyState(context, "Aun no has guardado", Icons.not_interested,
+                "favoritos"));
   }
 
   _createLisView(List<Song> favoriteChorus) {

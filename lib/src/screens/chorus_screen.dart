@@ -22,8 +22,7 @@ class ChorusScreen extends StatelessWidget {
                   .toList()
                   .contains(chorusProv.chorus[idx].id);
 
-              return itemChorusWidget(
-                  context, chorusProv.chorus[idx], isFavorite);
+              return itemChorusWid(context, chorusProv.chorus[idx], isFavorite);
             }));
   }
 }

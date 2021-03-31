@@ -53,3 +53,49 @@ _handleNavigate(BuildContext ctx, int id, String type) {
 
   //
 }
+
+Widget itemChorusWid(BuildContext ctx, Song chorus, bool isFavorite) =>
+    _chorusItemElement(ctx, chorus, isFavorite);
+
+Widget _chorusItemElement(BuildContext ctx, Song chorus, bool favorite) {
+  final chorusDB = Provider.of<FavoriteChorusAppProvider>(ctx);
+  chorus.type = 'chorus';
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 2.0),
+    child: Column(children: [
+      SizedBox(
+        height: 4.0,
+      ),
+      Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: ListTile(
+          enableFeedback: true,
+          title: GestureDetector(
+            child: Text(
+              chorus.title,
+              style: Theme.of(ctx).primaryTextTheme.headline3,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+            ),
+            onTap: () => _handleNavigate(ctx, chorus.id, chorus.type),
+          ),
+          trailing: GestureDetector(
+            child: Icon(
+              favorite ? Icons.favorite : Icons.favorite_border,
+              color: Colors.redAccent,
+            ),
+            onTap: () {
+              favorite
+                  ? chorusDB.deleteChorusById(chorus.id)
+                  : chorusDB.newFavorite(chorus);
+            },
+          ),
+        ),
+      ),
+    ]),
+  );
+}

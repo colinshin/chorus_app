@@ -12,7 +12,8 @@ class UiSharedPreferencesProvider extends ChangeNotifier {
 
   set darkTheme(bool theme) {
     this._darkTheme = theme;
-    notifyListeners();
+    //TODO SOMETHING ADDED
+    // notifyListeners();
   }
 
   double get fontSize {
