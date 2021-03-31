@@ -6,7 +6,7 @@ import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
 import 'package:chorus_app/src/screens/chorus_screen.dart';
 
 import 'package:chorus_app/src/screens/favorites_screen.dart';
-import 'package:chorus_app/src/screens/hymn_screen_sec.dart';
+import 'package:chorus_app/src/screens/hymn_screen.dart';
 import 'package:chorus_app/src/screens/settings_screen.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:chorus_app/src/widgets/botton_navigation_bar.dart';
