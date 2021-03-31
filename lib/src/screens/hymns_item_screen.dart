@@ -41,6 +41,9 @@ class HymnLirycsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
+          
+          physics: BouncingScrollPhysics(parent: ScrollPhysics()),
+          addAutomaticKeepAlives: true,
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),

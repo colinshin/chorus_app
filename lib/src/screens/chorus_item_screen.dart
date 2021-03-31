@@ -42,6 +42,8 @@ class ChorusLirycsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
+          addAutomaticKeepAlives: true,
+          physics: BouncingScrollPhysics(parent: ScrollPhysics()),
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
