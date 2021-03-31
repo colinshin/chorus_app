@@ -21,7 +21,7 @@ class ChorusLirycsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           chorus.title,
           maxLines: 1,
@@ -29,12 +29,12 @@ class ChorusLirycsScreen extends StatelessWidget {
         ),
         elevation: 2.0,
         actions: [
-          GestureDetector(
-            child: Icon(
+          IconButton(
+            icon: Icon(
               saved ? Icons.favorite : Icons.favorite_border,
               color: Colors.redAccent,
             ),
-            onTap: () => saved
+            onPressed: () => saved
                 ? favoriteDb.deleteChorusById(chorus.id)
                 : favoriteDb.newFavorite(chorus),
           )

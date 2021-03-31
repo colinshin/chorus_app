@@ -1,6 +1,8 @@
 import 'package:chorus_app/src/delegates/search_chorus_delegate.dart';
 import 'package:chorus_app/src/delegates/search_delegate_hymns.dart';
+import 'package:chorus_app/src/delegates/search_favorite_chorus_delegate.dart';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
+import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
@@ -28,6 +30,9 @@ class HomeScreen extends StatelessWidget {
   AppBar getAppBarIndex(BuildContext ctx) {
     final uiAppProvider = Provider.of<UiBottonNavigationBar>(ctx);
     final _prov = Provider.of<ChorusJsonProvider>(ctx);
+    final _provFavorites = Provider.of<FavoriteChorusAppProvider>(ctx);
+    final _provFavoriteUi = Provider.of<FavoriteUiProvider>(ctx);
+
     switch (uiAppProvider.selectedMenuOpt) {
       case 0:
         return getAppBar(actions: [
@@ -43,7 +48,10 @@ class HomeScreen extends StatelessWidget {
         ], ctx: ctx, title: "Lluvia de bendiciones");
       case 2:
         return getAppBar(actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: _handleSearchFavorite)
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () =>
+                  _handleSearchFavorite(ctx, _provFavorites, _provFavoriteUi))
         ], ctx: ctx, paintAppbar: true);
       case 3:
         return getAppBar(
@@ -123,7 +131,17 @@ class HomeScreen extends StatelessWidget {
     showSearch(context: ctx, delegate: HymnSearchDelegate(hymns: _prov.hymns));
   }
 
-  void _handleSearchFavorite() {}
+  _handleSearchFavorite(
+      BuildContext ctx,
+      FavoriteChorusAppProvider provFavorites,
+      FavoriteUiProvider provFavoriteUi) {
+    showSearch(
+        context: ctx,
+        delegate: FavoriteChorusSearch(
+            label: provFavoriteUi.tabLabel,
+            choruses: provFavorites,
+            type: provFavoriteUi.tabName));
+  }
 }
 
 class _HomeScreenBody extends StatefulWidget {

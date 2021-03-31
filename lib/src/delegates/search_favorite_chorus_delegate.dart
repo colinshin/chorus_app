@@ -8,10 +8,12 @@ import 'package:diacritic/diacritic.dart';
 import 'package:provider/provider.dart';
 
 class FavoriteChorusSearch extends SearchDelegate {
-  final List<Song> choruses;
+  final FavoriteChorusAppProvider choruses;
   final String type;
+  final String label;
 
-  FavoriteChorusSearch({@required this.choruses, @required this.type});
+  FavoriteChorusSearch(
+      {@required this.choruses, @required this.type, @required this.label});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -50,26 +52,25 @@ class FavoriteChorusSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<Song> suggest = [];
+    List<Song> suggest = choruses.favoriteChorus
+        .where((element) => element.type == type)
+        .toList();
 
     if (query.length >= 3) {
-      suggest = choruses
+      suggest = suggest
           .where((e) => removeDiacritics(e.song.toLowerCase().trim())
               .contains(removeDiacritics(query.toLowerCase().trim())))
           .toList();
-    } else {
-      suggest = choruses;
     }
     if (suggest.length == 0) {
-      return emptyState(context, "No existen himnos con tu",
+      return emptyState(context, 'No existen $label con tu',
           Icons.not_interested_sharp, "criterio de busqueda..!");
     }
+
     return ListView.builder(
         itemCount: suggest.length,
         itemBuilder: (ctx, i) {
-          final chorusDB = Provider.of<FavoriteChorusAppProvider>(context);
-
-          final isFavorite = chorusDB.favoriteChorus
+          final isFavorite = choruses.favoriteChorus
               .map((e) => e.id)
               .toList()
               .contains(suggest[i].id);

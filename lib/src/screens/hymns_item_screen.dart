@@ -16,24 +16,24 @@ class HymnLirycsScreen extends StatelessWidget {
 
     final saved =
         favoritesDB.favoriteChorus.map((e) => e.id).toList().contains(hymn.id);
-        
+
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.black26,
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           hymn.title,
-          maxLines: 10,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         elevation: 2.0,
         actions: [
-          GestureDetector(
-            child: Icon(
+          IconButton(
+            icon: Icon(
               !saved ? Icons.favorite_border : Icons.favorite,
               color: Colors.redAccent,
             ),
-            onTap: () => !saved
+            onPressed: () => !saved
                 ? favoritesDB.newFavorite(hymn)
                 : favoritesDB.deleteChorusById(hymn.id),
           )

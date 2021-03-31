@@ -9,6 +9,7 @@ Widget emptyState(
         Icon(
           icon,
           size: 80.0,
+          color: Theme.of(ctx).accentColor,
         ),
         Text(
           text,
