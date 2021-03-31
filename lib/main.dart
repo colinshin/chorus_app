@@ -3,6 +3,7 @@ import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
+import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/routes_app.dart';
 import 'package:chorus_app/src/settings/theme_app.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => new UiKeepDataSearched()),
       ChangeNotifierProvider(create: (_) => new FavoriteChorusAppProvider()),
       ChangeNotifierProvider(create: (_) => new FavoriteUiProvider()),
       ChangeNotifierProvider(

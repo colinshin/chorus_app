@@ -6,6 +6,7 @@ import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
+import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/screens/chorus_screen.dart';
 
 import 'package:chorus_app/src/screens/favorites_screen.dart';
@@ -32,26 +33,27 @@ class HomeScreen extends StatelessWidget {
     final _prov = Provider.of<ChorusJsonProvider>(ctx);
     final _provFavorites = Provider.of<FavoriteChorusAppProvider>(ctx);
     final _provFavoriteUi = Provider.of<FavoriteUiProvider>(ctx);
+    final _provSearch = Provider.of<UiKeepDataSearched>(ctx);
 
     switch (uiAppProvider.selectedMenuOpt) {
       case 0:
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchCoros(ctx, _prov))
+              onPressed: () => _handleSearchCoros(ctx, _prov, _provSearch))
         ], ctx: ctx, title: "Coros pentecostales");
       case 1:
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchHymns(ctx, _prov))
+              onPressed: () => _handleSearchHymns(ctx, _prov, _provSearch))
         ], ctx: ctx, title: "Lluvia de bendiciones");
       case 2:
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () =>
-                  _handleSearchFavorite(ctx, _provFavorites, _provFavoriteUi))
+              onPressed: () => _handleSearchFavorite(
+                  ctx, _provFavorites, _provFavoriteUi, _provSearch))
         ], ctx: ctx, paintAppbar: true);
       case 3:
         return getAppBar(
@@ -62,7 +64,7 @@ class HomeScreen extends StatelessWidget {
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchCoros(ctx, _prov))
+              onPressed: () => _handleSearchCoros(ctx, _prov, _provSearch))
         ], ctx: ctx, title: "Coros pentecostales");
     }
   }
@@ -123,23 +125,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _handleSearchCoros(BuildContext ctx, ChorusJsonProvider _prov) {
-    showSearch(context: ctx, delegate: ChorusSearchScreen(songs: _prov.chorus));
+  void _handleSearchCoros(BuildContext ctx, ChorusJsonProvider _prov,
+      UiKeepDataSearched _provSearch) {
+    showSearch(
+        context: ctx,
+        query: _provSearch?.searchChorus ?? '',
+        delegate:
+            ChorusSearchScreen(songs: _prov.chorus, provSearch: _provSearch));
   }
 
-  void _handleSearchHymns(BuildContext ctx, ChorusJsonProvider _prov) {
-    showSearch(context: ctx, delegate: HymnSearchDelegate(hymns: _prov.hymns));
+  void _handleSearchHymns(BuildContext ctx, ChorusJsonProvider _prov,
+      UiKeepDataSearched _provSearch) {
+    showSearch(
+        context: ctx,
+        query: _provSearch?.searchHymn ?? '',
+        delegate:
+            HymnSearchDelegate(hymns: _prov.hymns, provSearch: _provSearch));
   }
 
   _handleSearchFavorite(
       BuildContext ctx,
       FavoriteChorusAppProvider provFavorites,
-      FavoriteUiProvider provFavoriteUi) {
+      FavoriteUiProvider provFavoriteUi,
+      UiKeepDataSearched _provSearch) {
     showSearch(
         context: ctx,
+        query: _provSearch?.searchFavorite ?? '',
         delegate: FavoriteChorusSearch(
             label: provFavoriteUi.tabLabel,
             choruses: provFavorites,
+            provSearch: _provSearch,
             type: provFavoriteUi.tabName));
   }
 }

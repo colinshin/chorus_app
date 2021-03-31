@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:chorus_app/src/models/song_model.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/widgets/empty_state_widget.dart';
 import 'package:chorus_app/src/widgets/hymn_item.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,8 @@ import 'package:provider/provider.dart';
 class HymnSearchDelegate extends SearchDelegate {
   final List<Song> hymns;
   final DateTime date = DateTime.now();
-
-  HymnSearchDelegate({@required this.hymns});
+  final UiKeepDataSearched provSearch;
+  HymnSearchDelegate({@required this.hymns, @required this.provSearch});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -21,6 +22,7 @@ class HymnSearchDelegate extends SearchDelegate {
           icon: Icon(Icons.clear_sharp),
           onPressed: () {
             query = '';
+            provSearch.searchHymn = query;
           }),
     ];
   }
@@ -54,6 +56,7 @@ class HymnSearchDelegate extends SearchDelegate {
     List<Song> suggest = [];
 
     if (query.length >= 3) {
+      provSearch.searchHymn = query;
       suggest = hymns
           .where((e) => removeDiacritics(e.song.toLowerCase().trim())
               .contains(removeDiacritics(query.toLowerCase().trim())))

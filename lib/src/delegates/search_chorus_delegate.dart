@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:chorus_app/src/models/song_model.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/widgets/chorus_item_widget.dart';
 import 'package:chorus_app/src/widgets/empty_state_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,8 @@ import 'package:provider/provider.dart';
 class ChorusSearchScreen extends SearchDelegate {
   final List<Song> songs;
   final DateTime date = DateTime.now();
-
-  ChorusSearchScreen({@required this.songs});
+  final UiKeepDataSearched provSearch;
+  ChorusSearchScreen({@required this.songs, @required this.provSearch});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -21,6 +22,7 @@ class ChorusSearchScreen extends SearchDelegate {
           icon: Icon(Icons.clear_sharp),
           onPressed: () {
             query = '';
+            provSearch.searchChorus = query;
           }),
     ];
   }
@@ -54,6 +56,7 @@ class ChorusSearchScreen extends SearchDelegate {
     List<Song> suggest = [];
 
     if (query.length >= 3) {
+      provSearch.searchChorus = query;
       suggest = songs
           .where((e) => removeDiacritics(e.song.toLowerCase().trim())
               .contains(removeDiacritics(query.toLowerCase().trim())))

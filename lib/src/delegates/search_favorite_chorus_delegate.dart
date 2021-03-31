@@ -1,19 +1,23 @@
 import 'package:chorus_app/src/models/song_model.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/widgets/chorus_item_widget.dart';
 import 'package:chorus_app/src/widgets/empty_state_widget.dart';
 import 'package:chorus_app/src/widgets/hymn_item.dart';
 import 'package:flutter/material.dart';
 import 'package:diacritic/diacritic.dart';
-import 'package:provider/provider.dart';
 
 class FavoriteChorusSearch extends SearchDelegate {
   final FavoriteChorusAppProvider choruses;
   final String type;
   final String label;
+  final UiKeepDataSearched provSearch;
 
   FavoriteChorusSearch(
-      {@required this.choruses, @required this.type, @required this.label});
+      {@required this.choruses,
+      @required this.type,
+      @required this.label,
+      @required this.provSearch});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -22,6 +26,7 @@ class FavoriteChorusSearch extends SearchDelegate {
           icon: Icon(Icons.clear_sharp),
           onPressed: () {
             query = '';
+            provSearch.searchFavorite = query;
           }),
     ];
   }
@@ -57,6 +62,7 @@ class FavoriteChorusSearch extends SearchDelegate {
         .toList();
 
     if (query.length >= 3) {
+      provSearch.searchFavorite = query;
       suggest = suggest
           .where((e) => removeDiacritics(e.song.toLowerCase().trim())
               .contains(removeDiacritics(query.toLowerCase().trim())))
