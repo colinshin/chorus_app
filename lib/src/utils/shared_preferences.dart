@@ -13,7 +13,7 @@ class SharedPreferencesUtil {
 
   final _fontSize = 'FONT_SIZE';
   final _themeDark = 'THEME';
-  final _lastPageKey = 'last_page';
+  final _lastPageKey = 'LAST_PAGE';
 
   get fontSize => _sharedPrefs.getDouble(_fontSize) ?? 15.0;
   set fontSize(double val) => _sharedPrefs.setDouble(_fontSize, val);

@@ -1,12 +1,14 @@
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
+import 'package:chorus_app/src/provider/last_search_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
 import 'package:chorus_app/src/provider/ui_scroll_list_view.dart';
 import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
 import 'package:chorus_app/src/routes_app.dart';
 import 'package:chorus_app/src/settings/theme_app.dart';
+import 'package:chorus_app/src/utils/shared_lastest_search.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,8 +16,11 @@ import 'package:provider/provider.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = new SharedPreferencesUtil();
-  await prefs.init();
+  // ignore: non_constant_identifier_names
+  final __ = new SharedPreferencesUtil();
+  final _ = SharedPreferencesLatestSearch();
+  await _.init();
+  await __.init();
 
   runApp(MyApp());
 }
@@ -24,7 +29,10 @@ class MyApp extends StatelessWidget {
   final _prefs = new SharedPreferencesUtil();
   @override
   Widget build(BuildContext context) {
+    final lastSearch = SharedPreferencesLatestSearch();
     return MultiProvider(providers: [
+      ChangeNotifierProvider(
+          create: (_) => new LastSearchProvider(shared: lastSearch)),
       ChangeNotifierProvider(create: (_) => new UiKeepScroll()),
       ChangeNotifierProvider(create: (_) => new UiKeepDataSearched()),
       ChangeNotifierProvider(create: (_) => new FavoriteChorusAppProvider()),

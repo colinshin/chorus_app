@@ -11,6 +11,7 @@ class ChorusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final chorusProv = Provider.of<ChorusJsonProvider>(context);
     final chorusDB = Provider.of<FavoriteChorusAppProvider>(context);
+
     final _provScroll = Provider.of<UiKeepScroll>(context);
     ScrollController _sc = ScrollController(
         keepScrollOffset: true, initialScrollOffset: _provScroll.scrollChorus);

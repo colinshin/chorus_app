@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
-import 'package:chorus_app/src/screens/home_screen_test.dart';
+import 'package:chorus_app/src/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

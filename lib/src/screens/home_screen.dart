@@ -4,6 +4,7 @@ import 'package:chorus_app/src/delegates/search_favorite_chorus_delegate.dart';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
+import 'package:chorus_app/src/provider/last_search_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
 import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
@@ -12,6 +13,7 @@ import 'package:chorus_app/src/screens/chorus_screen.dart';
 import 'package:chorus_app/src/screens/favorites_screen.dart';
 import 'package:chorus_app/src/screens/hymn_screen.dart';
 import 'package:chorus_app/src/screens/settings_screen.dart';
+import 'package:chorus_app/src/utils/shared_lastest_search.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:chorus_app/src/widgets/botton_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +36,14 @@ class HomeScreen extends StatelessWidget {
     final _provFavorites = Provider.of<FavoriteChorusAppProvider>(ctx);
     final _provFavoriteUi = Provider.of<FavoriteUiProvider>(ctx);
     final _provSearch = Provider.of<UiKeepDataSearched>(ctx);
-
+    final _recentSearch = Provider.of<LastSearchProvider>(ctx);
     switch (uiAppProvider.selectedMenuOpt) {
       case 0:
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchCoros(ctx, _prov, _provSearch))
+              onPressed: () =>
+                  _handleSearchCoros(ctx, _prov, _provSearch, _recentSearch))
         ], ctx: ctx, title: "Coros pentecostales");
       case 1:
         return getAppBar(actions: [
@@ -64,7 +67,8 @@ class HomeScreen extends StatelessWidget {
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchCoros(ctx, _prov, _provSearch))
+              onPressed: () =>
+                  _handleSearchCoros(ctx, _prov, _provSearch, _recentSearch))
         ], ctx: ctx, title: "Coros pentecostales");
     }
   }
@@ -126,12 +130,15 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _handleSearchCoros(BuildContext ctx, ChorusJsonProvider _prov,
-      UiKeepDataSearched _provSearch) {
+      UiKeepDataSearched _provSearch, LastSearchProvider recentSearch) {
     showSearch(
         context: ctx,
         query: _provSearch?.searchChorus ?? '',
-        delegate:
-            ChorusSearchScreen(songs: _prov.chorus, provSearch: _provSearch));
+        delegate: ChorusSearchScreen(
+          songs: _prov.chorus,
+          provSearch: _provSearch,
+          recentSearched: recentSearch,
+        ));
   }
 
   void _handleSearchHymns(BuildContext ctx, ChorusJsonProvider _prov,
