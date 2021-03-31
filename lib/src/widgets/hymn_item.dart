@@ -12,6 +12,7 @@ class HymnItem extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) {
     final favoriteProv = Provider.of<FavoriteChorusAppProvider>(ctx);
+    hymn.type = 'hymn';
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 2.0),
         child: Column(children: [

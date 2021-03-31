@@ -1,6 +1,7 @@
 import 'package:chorus_app/src/delegates/search_chorus_delegate.dart';
 import 'package:chorus_app/src/delegates/search_delegate_hymns.dart';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
+import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
 import 'package:chorus_app/src/provider/theme_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
 import 'package:chorus_app/src/screens/chorus_screen.dart';
@@ -43,7 +44,7 @@ class HomeScreen extends StatelessWidget {
       case 2:
         return getAppBar(actions: [
           IconButton(icon: Icon(Icons.search), onPressed: _handleSearchFavorite)
-        ], ctx: ctx, title: "Mis favoritos");
+        ], ctx: ctx, paintAppbar: true);
       case 3:
         return getAppBar(
           ctx: ctx,
@@ -58,7 +59,47 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
-  AppBar getAppBar({BuildContext ctx, String title, List<Widget> actions}) {
+  AppBar getAppBar(
+      {BuildContext ctx,
+      String title = "",
+      List<Widget> actions,
+      bool paintAppbar = false}) {
+    if (paintAppbar) {
+      final _favProvider = Provider.of<FavoriteUiProvider>(ctx);
+      return AppBar(
+        actions: actions,
+        title: Container(
+            padding: EdgeInsets.symmetric(horizontal: 2.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.queue_music_rounded,
+                      color:
+                          _favProvider.tab == 0 ? Colors.white : Colors.black,
+                      size: 30),
+                  onPressed: () {
+                    _favProvider.tab = 0;
+                  },
+                ),
+                Text(
+                  _favProvider.tabLabel,
+                  style: Theme.of(ctx).textTheme.headline2,
+                ),
+                IconButton(
+                  icon: Icon(Icons.library_music,
+                      color:
+                          _favProvider.tab == 1 ? Colors.white : Colors.black,
+                      size: 30),
+                  onPressed: () {
+                    _favProvider.tab = 1;
+                  },
+                )
+              ],
+            )),
+      );
+    }
+
     if (actions == null || actions.length > 0) {
       return AppBar(
         actions: actions,
