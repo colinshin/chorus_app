@@ -14,19 +14,22 @@ class NavigationBarWidget extends StatelessWidget {
     final _uiShared = Provider.of<UiSharedPreferencesProvider>(context);
     final _pref = SharedPreferencesUtil();
 
+    Color btNavigationcolor = _uiShared.darkTheme ? Colors.black : Colors.white;
     return CurvedNavigationBar(
         index: uiTabProvider.selectedMenuOpt,
-        animationCurve: Curves.easeInCirc,
+        animationDuration: Duration(milliseconds: 300),
+        animationCurve: Curves.fastLinearToSlowEaseIn,
         backgroundColor: _uiShared.darkTheme
-            ? Colors.deepOrange
+            ? Colors.black12
             : Theme.of(context).primaryColor,
-        color: _uiShared.darkTheme ? Colors.white : Colors.black,
+        color:
+            _uiShared.darkTheme ? Theme.of(context).primaryColor : Colors.black,
         height: 55.0,
         items: <Widget>[
-          Icon(Icons.queue_music_rounded, color: Colors.blueAccent, size: 30),
-          Icon(Icons.library_music, color: Colors.blueAccent, size: 30),
-          Icon(Icons.favorite, color: Colors.blueAccent, size: 30),
-          Icon(Icons.settings, color: Colors.blueAccent, size: 30)
+          Icon(Icons.queue_music_rounded, color: btNavigationcolor, size: 30),
+          Icon(Icons.library_music, color: btNavigationcolor, size: 30),
+          Icon(Icons.favorite, color: btNavigationcolor, size: 30),
+          Icon(Icons.settings, color: btNavigationcolor, size: 30)
         ],
         onTap: (int opt) => onTaped(uiTabProvider, opt, _pref));
   }

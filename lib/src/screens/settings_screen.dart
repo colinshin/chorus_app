@@ -32,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Dark Mode"),
+                Text("Tema oscuro"),
                 Switch(
                   activeTrackColor: Theme.of(context).accentColor,
                   activeColor: Theme.of(context).primaryColor,

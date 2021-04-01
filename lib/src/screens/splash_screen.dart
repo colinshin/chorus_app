@@ -3,17 +3,22 @@ import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
 import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
+import 'package:chorus_app/src/routes_app.dart';
 import 'package:chorus_app/src/screens/home_screen.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
+  final BuildContext ctx;
+  SplashScreen({@required this.ctx});
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState(ctx: this.ctx);
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final BuildContext ctx;
+  _SplashScreenState({@required this.ctx});
   final splashDelay = 3;
   bool _call = false;
 
@@ -29,14 +34,23 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      final _prov = Provider.of<UiBottonNavigationBar>(context);
-      final _pref = SharedPreferencesUtil();
+    final _prov = Provider.of<UiBottonNavigationBar>(ctx, listen: false);
+    final _favProvider = Provider.of<FavoriteUiProvider>(ctx, listen: false);
+    final _pref = SharedPreferencesUtil();
 
-      _prov.selectedMenuOpt = _pref.lastPageIndex;
-      return HomeScreen();
-    }));
+    _prov.selectedMenuOpt = _pref.lastPageIndex;
+    _favProvider.tab = _pref.lastFavoritePageIndex;
+
+    final route = getCurrentRouteApp(routeName: _pref.lastPage, ctx: ctx);
+    final routeName = getRouteNameApp(routeName: _pref.lastPage, ctx: ctx);
+
+    if (route is HomeScreen) {
+      Navigator.of(ctx).pushReplacementNamed(routeName);
+      return;
+    }
+
+    Navigator.pushReplacementNamed(ctx, routeName,
+        arguments: {'id': _pref.lastIdSong, 'where':'splash'});
   }
 
   @override

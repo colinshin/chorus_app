@@ -43,10 +43,12 @@ Widget _chorusItem(BuildContext ctx, Song chorus, bool favorite) {
 _handleNavigate(BuildContext ctx, int id, String type) {
   switch (type) {
     case 'chorus':
-      Navigator.pushNamed(ctx, 'chorusLirycsScreen', arguments: id);
+      Navigator.pushNamed(ctx, 'chorusLirycsScreen',
+          arguments: {'id': id, 'where': 'item'});
       break;
     case 'hymn':
-      Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen', arguments: id);
+      Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen',
+          arguments: {'id': id, 'where': 'item'});
       break;
     default:
   }

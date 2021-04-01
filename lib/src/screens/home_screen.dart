@@ -22,6 +22,9 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _pref = SharedPreferencesUtil();
+    _pref.lastPage = 'homeScreen';
+
     return Scaffold(
       appBar: getAppBarIndex(context),
       body: _HomeScreenBody(),
@@ -38,12 +41,16 @@ class HomeScreen extends StatelessWidget {
     final _recentSearch = Provider.of<LastSearchProvider>(ctx);
     switch (uiAppProvider.selectedMenuOpt) {
       case 0:
-        return getAppBar(actions: [
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () =>
-                  _handleSearchCoros(ctx, _prov, _provSearch, _recentSearch))
-        ], ctx: ctx, title: "Coros pentecostales");
+        return getAppBar(
+          actions: [
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () =>
+                    _handleSearchCoros(ctx, _prov, _provSearch, _recentSearch))
+          ],
+          ctx: ctx,
+          title: "Coros pentecostales",
+        );
       case 1:
         return getAppBar(actions: [
           IconButton(
@@ -61,7 +68,7 @@ class HomeScreen extends StatelessWidget {
       case 3:
         return getAppBar(
           ctx: ctx,
-          title: "Mis ajustes",
+          title: "Ajustes ",
         );
       default:
         return getAppBar(actions: [
@@ -69,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               icon: Icon(Icons.search),
               onPressed: () =>
                   _handleSearchCoros(ctx, _prov, _provSearch, _recentSearch))
-        ], ctx: ctx, title: "Coros pentecostales");
+        ], ctx: ctx, title: "Corario pentecostes");
     }
   }
 
@@ -80,6 +87,7 @@ class HomeScreen extends StatelessWidget {
       bool paintAppbar = false}) {
     if (paintAppbar) {
       final _favProvider = Provider.of<FavoriteUiProvider>(ctx);
+      final _shared = SharedPreferencesUtil();
       return AppBar(
         actions: actions,
         title: Container(
@@ -90,23 +98,28 @@ class HomeScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.queue_music_rounded,
                       color:
-                          _favProvider.tab == 0 ? Colors.white : Colors.black,
+                          _favProvider.tab == 0 ? Colors.black : Colors.white,
                       size: 30),
                   onPressed: () {
                     _favProvider.tab = 0;
+                    _shared.lastFavoritePageIndex = 0;
                   },
                 ),
                 Text(
                   _favProvider.tabLabel,
-                  style: Theme.of(ctx).textTheme.headline2,
+                  style: Theme.of(ctx)
+                      .textTheme
+                      .headline1
+                      .copyWith(color: Colors.black),
                 ),
                 IconButton(
                   icon: Icon(Icons.library_music,
                       color:
-                          _favProvider.tab == 1 ? Colors.white : Colors.black,
+                          _favProvider.tab == 1 ? Colors.black : Colors.white,
                       size: 30),
                   onPressed: () {
                     _favProvider.tab = 1;
+                    _shared.lastFavoritePageIndex = 1;
                   },
                 )
               ],
@@ -119,12 +132,14 @@ class HomeScreen extends StatelessWidget {
         actions: actions,
         title: Text(
           title,
+          style: Theme.of(ctx).textTheme.headline2,
         ),
       );
     }
     return AppBar(
       title: Text(
         title,
+        style: Theme.of(ctx).textTheme.headline2,
       ),
     );
   }
@@ -138,6 +153,7 @@ class HomeScreen extends StatelessWidget {
           songs: _prov.chorus,
           provSearch: _provSearch,
           recentSearched: recentSearch,
+          ctx: ctx,
         ));
   }
 
@@ -149,7 +165,8 @@ class HomeScreen extends StatelessWidget {
         delegate: HymnSearchDelegate(
             hymns: _prov.hymns,
             provSearch: _provSearch,
-            recentSearched: recentSearch));
+            recentSearched: recentSearch,
+            ctx: ctx));
   }
 
   _handleSearchFavorite(

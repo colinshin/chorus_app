@@ -17,6 +17,5 @@ class FavoriteUiProvider extends ChangeNotifier {
 
   set tab(int tab) {
     this._tab = tab;
-    notifyListeners();
   }
 }

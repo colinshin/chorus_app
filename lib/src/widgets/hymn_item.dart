@@ -56,6 +56,7 @@ class HymnItem extends StatelessWidget {
   }
 
   _handleNavigate(BuildContext ctx, int id) {
-    Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen', arguments: id);
+    Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen',
+        arguments: {'id': id, 'where': 'item'});
   }
 }

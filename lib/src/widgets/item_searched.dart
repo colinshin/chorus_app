@@ -14,41 +14,66 @@ class SearchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: IconButton(
-        icon: Icon(Icons.restore),
-        onPressed: () => handleSearch(recent),
-      ),
-      trailing: IconButton(
-        onPressed: () => handleDelete(recent),
-        icon: Icon(Icons.delete),
-        color: Colors.red,
-      ),
-      title: GestureDetector(
-        child: Text(
-          "$recent",
-          maxLines: 1,
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 3.0),
+      decoration: BoxDecoration(
+          color: Colors.white38, borderRadius: BorderRadius.circular(10.3)),
+      child: ListTile(
+        leading: IconButton(
+          icon: Icon(Icons.restore),
+          onPressed: () => handleSearch(recent),
         ),
-        onTap: () => handleSearch(recent),
+        trailing: IconButton(
+          onPressed: () => handleDelete(recent),
+          icon: AnimatedIcon(
+            icon: AnimatedIcons.close_menu,
+            progress: CurvedAnimation(
+                curve: Curves.easeInToLinear,
+                parent: AnimationController(
+                    duration: Duration(milliseconds: 200),
+                    vsync: Scaffold.of(context))),
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        title: GestureDetector(
+          child: Text(
+            "$recent",
+            maxLines: 1,
+            style:
+                Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 20.0),
+          ),
+          onTap: () => handleSearch(recent),
+        ),
+        onTap: () => handleClose(context, recent),
       ),
-      onTap: () => handleClose(context, recent),
     );
   }
 }
 
-Widget deleteAllSearched({Function handleDeleteAll}) {
+Widget deleteAllSearched(
+    {@required BuildContext ctx, Function handleDeleteAll}) {
   return Container(
-    height: 60,
-    padding: EdgeInsets.symmetric(horizontal: 10),
+    padding: EdgeInsets.only(left: 20, right: 6),
+    margin: EdgeInsets.symmetric(vertical: 3.0),
+    decoration: BoxDecoration(
+        color: Colors.white38, borderRadius: BorderRadius.circular(10.3)),
     child: ListTile(
       onTap: handleDeleteAll,
-      trailing: Icon(
-        Icons.delete,
-        color: Colors.red,
+      trailing: AnimatedIcon(
+        icon: AnimatedIcons.close_menu,
+        progress: CurvedAnimation(
+            curve: Curves.elasticIn,
+            parent: AnimationController(
+                duration: Duration(milliseconds: 200),
+                vsync: Scaffold.of(ctx))),
+        color: Theme.of(ctx).primaryColor,
       ),
-      title: Text(
-        "Eliminar todas las busquedas",
-        maxLines: 1,
+      title: Center(
+        child: Text(
+          "Eliminar todos recientes",
+          maxLines: 1,
+          style: Theme.of(ctx).textTheme.headline1.copyWith(fontSize: 22.0),
+        ),
       ),
     ),
   );

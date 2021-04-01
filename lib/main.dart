@@ -16,13 +16,17 @@ import 'package:provider/provider.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // ignore: non_constant_identifier_names
   final __ = new SharedPreferencesUtil();
   final _ = SharedPreferencesLatestSearch();
   await _.init();
   await __.init();
-
-  runApp(MyApp());
+  
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

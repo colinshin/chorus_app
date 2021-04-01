@@ -27,7 +27,7 @@ class ChorusScreen extends StatelessWidget {
           child: ListView.builder(
               controller: _sc,
               itemCount: chorusProv.chorus.length,
-              physics: BouncingScrollPhysics(parent: ScrollPhysics()),
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemBuilder: (BuildContext ctx, int idx) {
                 chorusProv.chorus[idx].type = "chorus";
 

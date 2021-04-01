@@ -28,7 +28,7 @@ class HymnScreen extends StatelessWidget {
       },
       child: ListView.builder(
           controller: _sc,
-          physics: BouncingScrollPhysics(parent: ScrollPhysics()),
+        
           addAutomaticKeepAlives: true,
           itemCount: hymnProv.hymns.length,
           itemBuilder: (BuildContext ctx, int idx) {

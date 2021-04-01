@@ -32,7 +32,8 @@ class Fav extends StatelessWidget {
     return SafeArea(
         child: favorite.favoriteChorus.length > 0
             ? ListView(
-                physics: BouncingScrollPhysics(parent: ScrollPhysics()),
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   Column(
                     children: [
@@ -111,10 +112,12 @@ Widget _favoriteItem(BuildContext ctx, Song song, bool favorite) {
 _handleNavigate(BuildContext ctx, int id, String type) {
   switch (type) {
     case 'chorus':
-      Navigator.pushNamed(ctx, 'chorusLirycsScreen', arguments: id);
+      Navigator.pushNamed(ctx, 'chorusLirycsScreen',
+          arguments: {'id': id, 'where': 'other'});
       break;
     case 'hymn':
-      Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen', arguments: id);
+      Navigator.pushNamed(ctx, 'hymnScreenLirycsScreen',
+          arguments: {'id': id, 'where': 'other'});
       break;
     default:
   }

@@ -16,10 +16,23 @@ class ChorusSearchScreen extends SearchDelegate<String> {
   final LastSearchProvider recentSearched;
   final DateTime date = DateTime.now();
   final UiKeepDataSearched provSearch;
+  final BuildContext ctx;
   ChorusSearchScreen(
       {@required this.songs,
       @required this.provSearch,
-      @required this.recentSearched});
+      @required this.recentSearched,
+      @required this.ctx})
+      : super(
+            keyboardType: TextInputType.text,
+            searchFieldDecorationTheme: InputDecorationTheme(
+              border: InputBorder.none,
+              hintStyle: Theme.of(ctx)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontSize: 20.0, color:Theme.of(ctx).primaryColor),
+            ),
+            searchFieldLabel:
+                '${songs[DateTime.now().day * DateTime.now().month].title}');
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -67,18 +80,28 @@ class ChorusSearchScreen extends SearchDelegate<String> {
       return ListView.builder(
         itemCount: recentSearched.chorusSearched.length,
         itemBuilder: (context, index) {
-          return Column(children: [
-            index == 0
-                ? deleteAllSearched(handleDeleteAll: _handleDeleteAll)
-                : SizedBox(
-                    height: 0,
-                  ),
-            SearchItem(
-                handleSearch: _handlePress,
-                handleClose: close,
-                handleDelete: _handleDelete,
-                recent: recentSearched.chorusSearched[index])
-          ]);
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            margin: EdgeInsets.symmetric(
+              horizontal: 4.0,
+            ),
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(10.3)),
+            child: Column(children: [
+              index == 0
+                  ? deleteAllSearched(
+                      handleDeleteAll: _handleDeleteAll, ctx: context)
+                  : SizedBox(
+                      height: 0,
+                    ),
+              SearchItem(
+                  handleSearch: _handlePress,
+                  handleClose: close,
+                  handleDelete: _handleDelete,
+                  recent: recentSearched.chorusSearched[index])
+            ]),
+          );
         },
       );
     } else if (query.length >= 3) {

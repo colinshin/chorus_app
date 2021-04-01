@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ThemeData getLightThemeApp(BuildContext ctx) {
   final _prefs = new SharedPreferencesUtil();
   return ThemeData(
-      primaryColor: Colors.blueAccent,
+      primaryColor: Colors.blue,
       accentColor: Colors.teal,
       snackBarTheme: SnackBarThemeData(elevation: 5.0),
       scaffoldBackgroundColor: Colors.white70,
@@ -150,7 +150,7 @@ ThemeData getThemeDarkApp(BuildContext ctx) {
               fontFamily: "Lobster Regular",
               fontWeight: FontWeight.bold,
               wordSpacing: 0.4,
-              color: Colors.white),
+              color: Colors.black),
           headline3: TextStyle(
               fontSize: 24.0,
               fontFamily: "Lobster Regular",
