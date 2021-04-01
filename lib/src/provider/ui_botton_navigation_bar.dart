@@ -9,6 +9,6 @@ class UiBottonNavigationBar extends ChangeNotifier {
 
   set selectedMenuOpt(int i) {
     this._selectedMenuOpt = i;
-    notifyListeners();
+   // notifyListeners();
   }
 }

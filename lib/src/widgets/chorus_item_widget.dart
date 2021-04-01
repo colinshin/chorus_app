@@ -59,7 +59,7 @@ Widget itemChorusWid(BuildContext ctx, Song chorus, bool isFavorite) =>
 
 Widget _chorusItemElement(BuildContext ctx, Song chorus, bool favorite) {
   final chorusDB = Provider.of<FavoriteChorusAppProvider>(ctx);
-  chorus.type = 'chorus';
+
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 2.0),
     child: Column(children: [

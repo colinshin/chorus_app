@@ -5,25 +5,46 @@ class LastSearchProvider extends ChangeNotifier {
   final SharedPreferencesLatestSearch shared;
   LastSearchProvider({@required this.shared});
 
-  List<String> _lastChorusSearch = [];
-  List<String> _lastHymnsSearch = [];
+  List<String> _chorusSearched = [];
+  List<String> _hymnsSearched = [];
 
   List<String> get lastSearchChorus {
-    _lastChorusSearch = shared.latestChorusSearch(
-        prefKey: SharedPrefConstant.latestChorusSearch);
+    return shared.latestChorusValue;
+  }
 
-    return this._lastChorusSearch;
+  List<String> get chorusSearched {
+    _chorusSearched = lastSearchChorus;
+    return this._chorusSearched;
   }
 
   set lastSearchProvider(String lastSearch) {
-    shared.latestChorusSearchs(
-        item: lastSearch, prefKey: SharedPrefConstant.latestChorusSearch);
+    shared.latestChorusSearchs = lastSearch;
     notifyListeners();
   }
 
   void removeAllChorusSearched() {
-    shared.clearChorusSearhAll(prefKey: SharedPrefConstant.latestChorusSearch);
-    _lastChorusSearch = [];
+    shared.clearChorusSearhAll();
+    _chorusSearched = [];
+    notifyListeners();
+  }
+
+  List<String> get lastSearchHymns {
+    return shared.latestHymnsValue;
+  }
+
+  List<String> get hymnSearched {
+    _hymnsSearched = lastSearchHymns;
+    return this._hymnsSearched;
+  }
+
+  set lastSearchHymnProvider(String lastSearch) {
+    shared.latestHymnsSearchs = lastSearch;
+    notifyListeners();
+  }
+
+  void removeAllHymnSearched() {
+    shared.clearHymnsSearhAll();
+    _hymnsSearched = [];
     notifyListeners();
   }
 }

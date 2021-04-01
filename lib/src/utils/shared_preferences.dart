@@ -21,6 +21,6 @@ class SharedPreferencesUtil {
   get darkTheme => _sharedPrefs.getBool(_themeDark) ?? false;
   set darkTheme(bool val) => _sharedPrefs.setBool(_themeDark, val);
 
-  get lastPage => _sharedPrefs.getString(_lastPageKey) ?? 'homeScreen';
-  set lastPage(String val) => _sharedPrefs.setString(_lastPageKey, val);
+  int get lastPageIndex => _sharedPrefs.getInt(_lastPageKey) ?? 0;
+  set lastPageIndex(int val) => _sharedPrefs.setInt(_lastPageKey, val);
 }

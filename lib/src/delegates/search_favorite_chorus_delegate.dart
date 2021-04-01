@@ -52,7 +52,6 @@ class FavoriteChorusSearch extends SearchDelegate {
   @override
   void close(BuildContext context, result) {
     super.close(context, result);
-    print("CLOSE SEARCH DELEGATE ....................");
   }
 
   @override

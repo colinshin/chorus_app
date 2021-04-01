@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
+import 'package:chorus_app/src/provider/ui_botton_navigation_bar.dart';
 import 'package:chorus_app/src/screens/home_screen.dart';
+import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +30,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigationPage() {
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+        MaterialPageRoute(builder: (BuildContext context) {
+      final _prov = Provider.of<UiBottonNavigationBar>(context);
+      final _pref = SharedPreferencesUtil();
+
+      _prov.selectedMenuOpt = _pref.lastPageIndex;
+      return HomeScreen();
+    }));
   }
 
   @override

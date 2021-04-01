@@ -13,7 +13,6 @@ import 'package:chorus_app/src/screens/chorus_screen.dart';
 import 'package:chorus_app/src/screens/favorites_screen.dart';
 import 'package:chorus_app/src/screens/hymn_screen.dart';
 import 'package:chorus_app/src/screens/settings_screen.dart';
-import 'package:chorus_app/src/utils/shared_lastest_search.dart';
 import 'package:chorus_app/src/utils/shared_preferences.dart';
 import 'package:chorus_app/src/widgets/botton_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,8 @@ class HomeScreen extends StatelessWidget {
         return getAppBar(actions: [
           IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => _handleSearchHymns(ctx, _prov, _provSearch))
+              onPressed: () =>
+                  _handleSearchHymns(ctx, _prov, _provSearch, _recentSearch))
         ], ctx: ctx, title: "Lluvia de bendiciones");
       case 2:
         return getAppBar(actions: [
@@ -142,12 +142,14 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _handleSearchHymns(BuildContext ctx, ChorusJsonProvider _prov,
-      UiKeepDataSearched _provSearch) {
+      UiKeepDataSearched _provSearch, LastSearchProvider recentSearch) {
     showSearch(
         context: ctx,
         query: _provSearch?.searchHymn ?? '',
-        delegate:
-            HymnSearchDelegate(hymns: _prov.hymns, provSearch: _provSearch));
+        delegate: HymnSearchDelegate(
+            hymns: _prov.hymns,
+            provSearch: _provSearch,
+            recentSearched: recentSearch));
   }
 
   _handleSearchFavorite(

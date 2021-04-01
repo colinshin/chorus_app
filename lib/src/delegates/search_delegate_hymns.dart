@@ -2,18 +2,24 @@ import 'dart:math';
 
 import 'package:chorus_app/src/models/song_model.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
+import 'package:chorus_app/src/provider/last_search_provider.dart';
 import 'package:chorus_app/src/provider/ui_search_keep_data.dart';
+import 'package:chorus_app/src/widgets/chorus_item_widget.dart';
 import 'package:chorus_app/src/widgets/empty_state_widget.dart';
-import 'package:chorus_app/src/widgets/hymn_item.dart';
+import 'package:chorus_app/src/widgets/item_searched.dart';
 import 'package:flutter/material.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:provider/provider.dart';
 
-class HymnSearchDelegate extends SearchDelegate {
+class HymnSearchDelegate extends SearchDelegate<String> {
   final List<Song> hymns;
   final DateTime date = DateTime.now();
+  final LastSearchProvider recentSearched;
   final UiKeepDataSearched provSearch;
-  HymnSearchDelegate({@required this.hymns, @required this.provSearch});
+  HymnSearchDelegate(
+      {@required this.hymns,
+      @required this.provSearch,
+      @required this.recentSearched});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -48,14 +54,34 @@ class HymnSearchDelegate extends SearchDelegate {
   @override
   void close(BuildContext context, result) {
     super.close(context, result);
-    print("CLOSE SEARCH DELEGATE ....................");
+    if (query.length >= 3) {
+      recentSearched.lastSearchHymnProvider = query;
+    }
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     List<Song> suggest = [];
 
-    if (query.length >= 3) {
+    if (recentSearched.lastSearchHymns.length != 0 && query.length == 0) {
+      return ListView.builder(
+        itemCount: recentSearched.lastSearchHymns.length,
+        itemBuilder: (context, index) {
+          return Column(children: [
+            index == 0
+                ? deleteAllSearched(handleDeleteAll: _handleDeleteAll)
+                : SizedBox(
+                    height: 0,
+                  ),
+            SearchItem(
+                handleSearch: _handlePress,
+                handleClose: close,
+                handleDelete: _handleDelete,
+                recent: recentSearched.lastSearchHymns[index])
+          ]);
+        },
+      );
+    } else if (query.length >= 3) {
       provSearch.searchHymn = query;
       suggest = hymns
           .where((e) => removeDiacritics(e.song.toLowerCase().trim())
@@ -67,22 +93,36 @@ class HymnSearchDelegate extends SearchDelegate {
       suggest = hymns.getRange(random, random + 10).toList();
     }
     if (suggest.length == 0) {
-      return emptyState(context, "No existen himnos con tu",
+      return emptyState(context, "No existen himno con tu",
           Icons.not_interested_sharp, "criterio de busqueda..!");
+    } else {
+      return ListView.builder(
+          itemCount: suggest.length,
+          itemBuilder: (ctx, i) {
+            final chorusDB = Provider.of<FavoriteChorusAppProvider>(context);
+
+            final isFavorite = chorusDB.favoriteChorus
+                .map((e) => e.id)
+                .toList()
+                .contains(suggest[i].id);
+
+            final item = suggest[i];
+            item.type = 'hymn';
+
+            return itemChorusWid(ctx, item, isFavorite);
+          });
     }
-    return ListView.builder(
-        itemCount: suggest.length,
-        itemBuilder: (ctx, i) {
-          final chorusDB = Provider.of<FavoriteChorusAppProvider>(context);
+  }
 
-          final isFavorite = chorusDB.favoriteChorus
-              .map((e) => e.id)
-              .toList()
-              .contains(suggest[i].id);
-          final hymn = suggest[i];
-          hymn.type = 'hymn';
+  _handlePress(String recentSearched) {
+    query = recentSearched;
+  }
 
-          return HymnItem(favorite: isFavorite, hymn: hymn);
-        });
+  _handleDelete(String recentSearhText) {
+    recentSearched.lastSearchHymnProvider = recentSearhText;
+  }
+
+  _handleDeleteAll() {
+    recentSearched.removeAllHymnSearched();
   }
 }

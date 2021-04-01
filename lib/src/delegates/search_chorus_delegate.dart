@@ -63,9 +63,9 @@ class ChorusSearchScreen extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     List<Song> suggest = [];
 
-    if (recentSearched.lastSearchChorus.length != 0 && query.length == 0) {
+    if (recentSearched.chorusSearched.length != 0 && query.length == 0) {
       return ListView.builder(
-        itemCount: recentSearched.lastSearchChorus.length,
+        itemCount: recentSearched.chorusSearched.length,
         itemBuilder: (context, index) {
           return Column(children: [
             index == 0
@@ -77,7 +77,7 @@ class ChorusSearchScreen extends SearchDelegate<String> {
                 handleSearch: _handlePress,
                 handleClose: close,
                 handleDelete: _handleDelete,
-                recent: recentSearched.lastSearchChorus[index])
+                recent: recentSearched.chorusSearched[index])
           ]);
         },
       );
@@ -101,12 +101,14 @@ class ChorusSearchScreen extends SearchDelegate<String> {
           itemCount: suggest.length,
           itemBuilder: (ctx, i) {
             final chorusDB = Provider.of<FavoriteChorusAppProvider>(context);
-
+            final item = suggest[i];
+            item.type = 'chorus';
             final isFavorite = chorusDB.favoriteChorus
                 .map((e) => e.id)
                 .toList()
                 .contains(suggest[i].id);
-            return itemChorusWid(ctx, suggest[i], isFavorite);
+
+            return itemChorusWid(ctx, item, isFavorite);
           });
     }
   }
