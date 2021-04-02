@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
     final lastSearch = SharedPreferencesLatestSearch();
     return MultiProvider(providers: [
       ChangeNotifierProvider(
-          create: (_) => new LastSearchProvider(shared: lastSearch)),
+          create: (_) => new LastSearchProvider(share: lastSearch)),
       ChangeNotifierProvider(create: (_) => new UiKeepScroll()),
       ChangeNotifierProvider(create: (_) => new UiKeepDataSearched()),
       ChangeNotifierProvider(create: (_) => new FavoriteChorusAppProvider()),
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
           create: (BuildContext ctx) => new UiBottonNavigationBar()),
       ChangeNotifierProvider(
           create: (BuildContext ctx) => new UiSharedPreferencesProvider(
-              _prefs.darkTheme, _prefs.fontSize))
+              dark: _prefs.darkTheme, size: _prefs.fontSize))
     ], child: MaterialAppTheme());
   }
 }

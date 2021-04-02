@@ -2,8 +2,14 @@ import 'package:chorus_app/src/utils/shared_lastest_search.dart';
 import 'package:flutter/material.dart';
 
 class LastSearchProvider extends ChangeNotifier {
-  final SharedPreferencesLatestSearch shared;
-  LastSearchProvider({@required this.shared});
+  SharedPreferencesLatestSearch shared;
+
+  static final LastSearchProvider _instance = LastSearchProvider.__internal();
+  LastSearchProvider.__internal();
+  factory LastSearchProvider({@required SharedPreferencesLatestSearch share}) {
+    _instance.shared = share;
+    return _instance;
+  }
 
   List<String> _chorusSearched = [];
   List<String> _hymnsSearched = [];

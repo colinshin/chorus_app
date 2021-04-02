@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class UiKeepScroll extends ChangeNotifier {
+  static final UiKeepScroll _instance = UiKeepScroll._init();
+
+  UiKeepScroll._init();
+
+  factory UiKeepScroll() => _instance;
+
   double _scrollHymn = 0.0;
   double _scrollChorus = 0.0;
 

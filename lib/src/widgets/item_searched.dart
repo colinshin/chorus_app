@@ -70,7 +70,7 @@ Widget deleteAllSearched(
       ),
       title: Center(
         child: Text(
-          "Eliminar todos recientes",
+          "limpiar historial",
           maxLines: 1,
           style: Theme.of(ctx).textTheme.headline1.copyWith(fontSize: 22.0),
         ),

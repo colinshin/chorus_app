@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 class UiSharedPreferencesProvider extends ChangeNotifier {
+  static final UiSharedPreferencesProvider _instance =
+      UiSharedPreferencesProvider.__internal();
+  UiSharedPreferencesProvider.__internal();
+  factory UiSharedPreferencesProvider(
+      {@required bool dark, @required double size}) {
+    _instance._darkTheme = dark;
+    _instance._fontSize = size;
+    return _instance;
+  }
+
   bool _darkTheme = false;
   double _fontSize = 15.0;
-
-  UiSharedPreferencesProvider(bool _darkTheme, double _fontSize);
 
   bool get darkTheme {
     return this._darkTheme;
@@ -12,8 +20,6 @@ class UiSharedPreferencesProvider extends ChangeNotifier {
 
   set darkTheme(bool theme) {
     this._darkTheme = theme;
-    //TODO SOMETHING ADDED
-    // notifyListeners();
   }
 
   double get fontSize {

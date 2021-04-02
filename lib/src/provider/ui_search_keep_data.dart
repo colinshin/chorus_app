@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class UiKeepDataSearched extends ChangeNotifier {
+  static final UiKeepDataSearched _instance = UiKeepDataSearched._init();
+
+  UiKeepDataSearched._init();
+
+  factory UiKeepDataSearched() => _instance;
+
   String _searchChorus;
   String _searchHymn;
   String _searchFavorite;

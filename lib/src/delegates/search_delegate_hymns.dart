@@ -67,7 +67,7 @@ class HymnSearchDelegate extends SearchDelegate<String> {
   @override
   void close(BuildContext context, result) {
     super.close(context, result);
-    if (query.length >= 3) {
+    if (query.length >=1) {
       recentSearched.lastSearchHymnProvider = query;
     }
   }
