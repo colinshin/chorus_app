@@ -12,6 +12,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _prefs = new SharedPreferencesUtil();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<UiSharedPreferencesProvider>(context);
     return ListView(
@@ -26,6 +31,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline1),
             ),
+            Text("nombre",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline1),
             SizedBox(
               height: 30.0,
             ),
@@ -69,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
             SizedBox(
-              height: 100,
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

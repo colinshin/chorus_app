@@ -1,3 +1,4 @@
+import 'package:chorus_app/src/screens/about_screen.dart';
 import 'package:chorus_app/src/screens/chorus_item_screen.dart';
 import 'package:chorus_app/src/screens/chorus_screen.dart';
 import 'package:chorus_app/src/screens/favorites_screen.dart';
@@ -23,14 +24,12 @@ getRouteNameApp({BuildContext ctx, @required String routeName}) {
 
 routesApp() {
   return {
-    "chorusScreen": (BuildContext ctx) => ChorusScreen(),
     "homeScreen": (BuildContext ctx) => HomeScreen(),
-    "hymnScreen": (BuildContext ctx) => HymnScreen(),
     "splashScreen": (BuildContext ctx) => SplashScreen(
           ctx: ctx,
         ),
     "chorusLirycsScreen": (BuildContext ctx) => ChorusLirycsScreen(),
-    "favoriteScreen": (BuildContext ctx) => FavoritesScreen(),
+    'aboutScreen': (BuildContext ctx) => AboutScreen(),
     "hymnScreenLirycsScreen": (BuildContext ctx) => HymnLirycsScreen(),
   };
 }

@@ -5,6 +5,13 @@ import 'package:chorus_app/src/utils/file_read.dart';
 import 'package:flutter/foundation.dart';
 
 class ChorusJsonProvider extends ChangeNotifier {
+  static final ChorusJsonProvider _chorusJsonProvider =
+      ChorusJsonProvider._internal();
+
+  factory ChorusJsonProvider() => _chorusJsonProvider;
+
+  ChorusJsonProvider._internal();
+
   List<Song> _chorus = [];
   List<Song> _hymns = [];
 
@@ -37,7 +44,7 @@ class ChorusJsonProvider extends ChangeNotifier {
       final hymnTemp = new Song.fromJson(value);
       _hymns.add(hymnTemp);
     });
-  
+
     notifyListeners();
   }
 

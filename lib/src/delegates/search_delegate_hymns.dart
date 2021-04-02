@@ -29,7 +29,7 @@ class HymnSearchDelegate extends SearchDelegate<String> {
               hintStyle: Theme.of(ctx)
                   .textTheme
                   .bodyText1
-                  .copyWith(fontSize: 20.0, color:Theme.of(ctx).primaryColor),
+                  .copyWith(fontSize: 20.0, color: Theme.of(ctx).primaryColor),
             ),
             searchFieldLabel:
                 '${hymns[DateTime.now().day * Random().nextInt(8)].title}');
@@ -103,11 +103,14 @@ class HymnSearchDelegate extends SearchDelegate<String> {
               ]));
         },
       );
-    } else if (query.length >= 3) {
+    } else if (query.length >= 0) {
       provSearch.searchHymn = query;
+      final id = int.tryParse(query) != null ? int.tryParse(query) : -1;
       suggest = hymns
-          .where((e) => removeDiacritics(e.song.toLowerCase().trim())
-              .contains(removeDiacritics(query.toLowerCase().trim())))
+          .where((e) =>
+              e.id == id ||
+              removeDiacritics(e.song.toLowerCase().trim())
+                  .contains(removeDiacritics(query.toLowerCase().trim())))
           .toList();
     } else {
       Random rnd = new Random(date.day);

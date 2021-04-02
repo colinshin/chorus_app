@@ -47,7 +47,7 @@ class HymnItem extends StatelessWidget {
                       ? favoriteProv.newFavorite(hymn)
                       : favoriteProv.deleteChorusById(hymn.id)),
               leading: GestureDetector(
-                child: Text((hymn.id).toString()),
+                child: Text(('#${hymn.id}')),
                 onTap: () => _handleNavigate(ctx, hymn.id),
               ),
             ),

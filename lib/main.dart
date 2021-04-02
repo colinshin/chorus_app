@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_ui_provider.dart';
@@ -22,10 +24,15 @@ main() async {
   final _ = SharedPreferencesLatestSearch();
   await _.init();
   await __.init();
-  
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(new MyApp());
+    runZonedGuarded(() {
+      runApp(new MyApp());
+    }, (dynamic error, dynamic stack) {
+      print(error);
+      print(stack);
+    });
   });
 }
 
@@ -40,7 +47,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (_) => new UiKeepScroll()),
       ChangeNotifierProvider(create: (_) => new UiKeepDataSearched()),
       ChangeNotifierProvider(create: (_) => new FavoriteChorusAppProvider()),
-      ChangeNotifierProvider(create: (_) => new FavoriteUiProvider()),
+      ChangeNotifierProvider(create: (_) => FavoriteUiProvider.instance),
       ChangeNotifierProvider(
           create: (BuildContext ctx) => ChorusJsonProvider()),
       ChangeNotifierProvider(

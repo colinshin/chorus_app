@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class FavoriteUiProvider extends ChangeNotifier {
+  FavoriteUiProvider._internal();
+
+  static final FavoriteUiProvider _instance = FavoriteUiProvider._internal();
+
+  static FavoriteUiProvider get instance => _instance;
+
   int _tab = 0;
 
   int get tab {

@@ -3,6 +3,11 @@ import 'package:chorus_app/src/provider/db_provider.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteChorusAppProvider extends ChangeNotifier {
+  static final FavoriteChorusAppProvider _favorites =
+      FavoriteChorusAppProvider._internal();
+  factory FavoriteChorusAppProvider() => _favorites;
+  FavoriteChorusAppProvider._internal();
+  
   List<Song> favoriteChorus = [];
 
   newFavorite(Song chorus) async {

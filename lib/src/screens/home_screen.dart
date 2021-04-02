@@ -66,10 +66,11 @@ class HomeScreen extends StatelessWidget {
                   ctx, _provFavorites, _provFavoriteUi, _provSearch))
         ], ctx: ctx, paintAppbar: true);
       case 3:
-        return getAppBar(
-          ctx: ctx,
-          title: "Ajustes ",
-        );
+        return getAppBar(actions: [
+          IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () => _handleInfoTab(ctx))
+        ], ctx: ctx, title: "Ajustes de la aplicacion");
       default:
         return getAppBar(actions: [
           IconButton(
@@ -155,6 +156,10 @@ class HomeScreen extends StatelessWidget {
           recentSearched: recentSearch,
           ctx: ctx,
         ));
+  }
+
+  void _handleInfoTab(BuildContext ctx) {
+    Navigator.pushNamed(ctx, 'aboutScreen');
   }
 
   void _handleSearchHymns(BuildContext ctx, ChorusJsonProvider _prov,

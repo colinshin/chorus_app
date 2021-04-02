@@ -2,6 +2,7 @@ import 'package:chorus_app/src/provider/chorus_provider.dart';
 import 'package:chorus_app/src/provider/favorite_chorus_provider.dart';
 import 'package:chorus_app/src/provider/ui_scroll_list_view.dart';
 import 'package:chorus_app/src/widgets/hymn_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,19 +19,22 @@ class HymnScreen extends StatelessWidget {
         keepScrollOffset: true, initialScrollOffset: _provScroll.scrollHymn);
 
     return SafeArea(
-        child: NotificationListener(
-      onNotification: (Notification t) {
-        if (t is ScrollEndNotification) {
+        child: Scrollbar(
+      controller: _sc,
+      isAlwaysShown: true,
+      thickness: 4,
+      notificationPredicate: (Notification n) {
+        if (n is ScrollEndNotification) {
           _provScroll.scrollHymn = _sc.offset;
           return true;
         }
-        return false;
+        return true;
       },
       child: ListView.builder(
           controller: _sc,
-        
-          addAutomaticKeepAlives: true,
           itemCount: hymnProv.hymns.length,
+          cacheExtent: 200,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemBuilder: (BuildContext ctx, int idx) {
             final isFavorite = favoriteChorusProvider.favoriteChorus
                 .map((e) => e.id)
